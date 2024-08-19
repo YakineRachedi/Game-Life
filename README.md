@@ -10,3 +10,8 @@ The state (empty or occupied by a cell) of each grid cell in the next step is de
 <figcaption style="text-align: center; font-weight: bold;">
 Figure 1 – Two iterations of the Game of Life. Empty cells where a new cell will appear in the next round (cells with three neighbors) are indicated by dotted lines. Cells that will die (having fewer than two or more than three neighbors) are shaded.
 </figcaption>
+
+# Declaration of the class, initial methods, constructors, and accessors :
+The variables $H$ and $W$ will correspond to the size of the considered grid (height and width). 
+
+The variable `config`, which is a vector of vectors of booleans, will contain the arrangement of the cells on the grid. More specifically, the boolean `config[i][j]` will be `true` if the cell in the $i$-th row and $j$-th column is occupied, and will be `false` otherwise.
