@@ -13,6 +13,7 @@ class game_life {
         int height() const {return this->H;}
         int width() const {return this->W;}
         int neighbors(int i, int j) const; 
+        void iteration();
 };
 
 #endif

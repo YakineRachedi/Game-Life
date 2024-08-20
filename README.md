@@ -21,3 +21,5 @@ The method:
 int neighbors(int i, int j) const;
 ``` 
 returns the number of occupied cells that are neighbors of the cell in the $i$-th row and $j$-th column.
+
+The 'iteration' method performs a single iteration of the Game of Life. After calling this function, the 'config' variable is updated to reflect the arrangement of cells in the next time step.

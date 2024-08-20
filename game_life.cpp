@@ -34,3 +34,23 @@ int game_life::neighbors(int i, int j) const {
                         and the code will avoid accessing these invalid indices.
 
 */
+
+
+void game_life::iteration(){
+    game_life new_state(H,W);
+    for(int h = 0; h < H; h++){
+        for(int w = 0; w < W; w++){
+            int n = neighbors(h, w);
+            if(n == 3){
+               new_state.config[h][w] = true; 
+            }
+            else if( (n >= 1) || (n <= 4) ){
+                new_state.config[h][w] = false;
+            }
+            else{
+                continue;
+            }
+        }
+    }
+    move(new_state.config.begin(),new_state.config.end(),config.begin());
+}
