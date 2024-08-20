@@ -15,3 +15,9 @@ Figure 1 – Two iterations of the Game of Life. Empty cells where a new cell wi
 The variables $H$ and $W$ will correspond to the size of the considered grid (height and width). 
 
 The variable `config`, which is a vector of vectors of booleans, will contain the arrangement of the cells on the grid. More specifically, the boolean `config[i][j]` will be `true` if the cell in the $i$-th row and $j$-th column is occupied, and will be `false` otherwise.
+
+The method:
+```cpp
+int neighbors(int i, int j) const;
+``` 
+returns the number of occupied cells that are neighbors of the cell in the $i$-th row and $j$-th column.

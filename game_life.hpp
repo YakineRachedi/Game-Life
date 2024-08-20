@@ -4,12 +4,15 @@
 #include <iostream>
 #include <vector>
 
-class jeu_vie {
+class game_life {
     private:
         int H, W;
         std::vector<std::vector<bool> > config;
     public:
-        jeu_vie(int _H, int _W); 
+        game_life(int _H, int _W);
+        int height() const {return this->H;}
+        int width() const {return this->W;}
+        int neighbors(int i, int j) const; 
 };
 
 #endif
