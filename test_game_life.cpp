@@ -43,6 +43,8 @@ int main(){
 
     const int nb_iter = 100;
     const int nb_realizations = 100;
+    
+    ofstream outfile("data.txt"); // File to save the data
 
     for(double p = 0.1; p < 0.95; p += 0.1) {
         int total_cells = 0;
@@ -63,10 +65,35 @@ int main(){
                     total_cells += New_game_test.occupied_cells_count(); // Ensure occupied_cells_count returns the number of occupied cells
                 }
             // Calculate and print the average number of occupied cells
-            cout << "p=" << p << " ; average number of cells: " << (total_cells / static_cast<double>(nb_realizations)) << "\n";
+            double occuped_cells = (total_cells / static_cast<double>(nb_realizations));
+            cout << "p=" << p << " ; average number of cells: " << occuped_cells << "\n";
+            outfile << p << "\t" << occuped_cells << "\n";
         //    }
         //}
 
     }
+    outfile.close();
+
+    // File to save the data
+    outfile.open("realizations.txt");
+
+    for(double p = 0.1; p < 0.95; p += 0.1) {
+        for(int realization = 0; realization < nb_realizations; realization++) {
+            game_life New_game_test(Height, Width, p, G);
+
+            for(int i = 0; i < nb_iter; i++) {
+                New_game_test.iteration();
+            }
+
+            auto occupied_cells = New_game_test.get_occupied_cells();
+            for (const auto& cell : occupied_cells) {
+                int x, y;
+                string color;
+                tie(x, y, color) = cell;
+                outfile << p << " " << realization << " " << x << " " << y << " " << color << "\n";
+            }
+        }
+    }
+    outfile.close();
     return 0;
 }
