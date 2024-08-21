@@ -23,3 +23,30 @@ int neighbors(int i, int j) const;
 returns the number of occupied cells that are neighbors of the cell in the $i$-th row and $j$-th column.
 
 The 'iteration' method performs a single iteration of the Game of Life. After calling this function, the 'config' variable is updated to reflect the arrangement of cells in the next time step.
+
+### Display and streams :
+The method:
+
+```cpp
+void display(std::ostream & stream) const;
+```
+allows writing the configuration to a stream in the following format:
+```cpp
+4 4
+.X.X
+.X..
+ X.XX
+...X
+```
+The first line displays the height and width of the grid. 
+
+This example corresponds to the initial state shown in Figure 1.
+
+To use this method, another constructor is needed that takes an input stream (`std::ifstream`) as an argument and creates a `jeu_vie` object from a file with the previous format.
+
+The constructor should read the file as the previous format:
+
+1. The first line contains the height and width of the grid.
+2. The following lines describe the grid configuration using `.` for empty cells and `X` for occupied cells.
+
+file : glider.dat is a configuration of cells that moves while maintaining the same shape (to be precise, it moves one cell down and to the right every 4 iterations).

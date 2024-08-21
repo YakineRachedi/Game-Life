@@ -1,7 +1,10 @@
 #include "game_life.hpp"
 using namespace std;
 
+/*===================================================*** Constructors ***====================================================================*/
+
 game_life::game_life(int _H, int _W) : H(_H), W(_W), config(H,vector<bool>(W,false)) {}
+
 /* 
 // This is equivalent to : 
 game_life::game_life(int _H,int _W): H(_H), W(_W), config(H) {
@@ -13,17 +16,55 @@ game_life::game_life(int _H,int _W): H(_H), W(_W), config(H) {
     }
 } */
 
+game_life::game_life(ifstream & input) {
+    // Read the height and width of the grid from the input stream
+    input >> this->H;
+    input >> this->W;
 
+    // Resize the outer vector to hold 'H' rows
+    this->config.resize(H);
+
+    string reading;
+    for(int h = 0; h < H; h++) {
+        // Resize each row to have 'W' columns
+        this->config[h].resize(W);
+
+        // Read a line from the input stream containing the cell states
+        input >> reading;
+
+        for(int w = 0; w < W; w++) {
+            // If the character is 'X', the cell is alive (true), otherwise it's dead (false)
+            if(reading[w] == 'X') {
+                config[h][w] = true;
+            } else {
+                config[h][w] = false;
+            }
+        }
+    }
+}
+
+
+/*===================================================*** Methods ***====================================================================*/
 int game_life::neighbors(int i, int j) const {
     int nb_neighbors = 0;
-    for(int h = i-1; h <= i+1; h++){
-        for(int w = j-1; w <= j+1; w++){
-            if( (h >= 0 && h < H) && (w >= 0 && w < W) && !(h == i && w == j) ){
+
+    // Loop over the 3x3 neighborhood surrounding the cell (i, j)
+
+    for(int h = i - 1; h <= i + 1; h++) {
+        for(int w = j - 1; w <= j + 1; w++) {
+    
+            // Check if the neighboring cell is within grid boundaries and is not the cell itself
+    
+            if((h >= 0 && h < H) && (w >= 0 && w < W) && !(h == i && w == j)) {
+    
+                // Add to the neighbor count if the cell is alive (true)
+    
                 nb_neighbors += config[h][w];
             }
         }
     }
-    return nb_neighbors;
+
+    return nb_neighbors; // Return the total number of live neighbors
 }
 
 /*
@@ -44,13 +85,23 @@ void game_life::iteration(){
             if(n == 3){
                new_state.config[h][w] = true; 
             }
-            else if( (n >= 1) || (n <= 4) ){
+            else if( (n <= 1) || (n >= 4) ){
                 new_state.config[h][w] = false;
             }
             else{
-                continue;
+                new_state.config[h][w] = config[h][w];
             }
         }
     }
-    move(new_state.config.begin(),new_state.config.end(),config.begin());
+    config = move(new_state.config);
+}
+
+void game_life::display(ostream & stream) const {
+    stream << this->H << " " << this->W << "\n";
+    for(int h = 0; h < H; h++){
+        for(int w = 0; w < W; w++){
+            config[h][w] == true ? stream << "X " : stream << ". ";
+        }
+        stream << "\n";
+    }
 }
