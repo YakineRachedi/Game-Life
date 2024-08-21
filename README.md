@@ -50,3 +50,44 @@ The constructor should read the file as the previous format:
 2. The following lines describe the grid configuration using `.` for empty cells and `X` for occupied cells.
 
 file : glider.dat is a configuration of cells that moves while maintaining the same shape (to be precise, it moves one cell down and to the right every 4 iterations).
+
+# A more complex development based on the `<random>` library:
+
+Recall that if `gen` is a variable of type `std::mt19937` and `X` is a variable of type `std::bernoulli_distribution` initialized with the value $p$, then calling `X(gen)` returns a random value drawn from a Bernoulli distribution with parameter $p$. This uses the `<random>` library, which is available by compiling with the `-std=c++11` option.
+
+Here is an example of how it can be used:
+
+```cpp
+#include <random>
+
+std::mt19937 gen; // Random number generator
+std::bernoulli_distribution X(p); // Bernoulli distribution with parameter p
+
+// To generate a random value
+bool random_value = X(gen);
+
+```
+
+Next, we need a constructor that takes two integers $H$ and $L$, a parameter $p$, and a reference to a generator $G$, and randomly fills a grid of size $H \times L$ with Bernoulli variables with parameter $p$.
+
+The method `occupied_cells_count` returns the number of occupied cells among the $H \times W$ cells of the grid.
+
+Let's calculate, for each value of $p$ in the set $\{0.1, 0.2, \dots, 0.9\}$, the average number of occupied cells after 100 iterations of the Game of Life. This average will be computed starting from 100 initial conditions randomly drawn independently with Bernoulli distributions with parameter $p$. For example, let's choose a grid size of $15 \times 25$.
+
+A program that calculates (using the Monte Carlo method) the average density of cells on a $15 \times 25$ grid after 100 iterations of the Game of Life, depending on the initial density.
+
+The approximate results are as follows:
+
+- $p = 0.1$; Average number of cells: 9
+- $p = 0.2$; Average number of cells: 21
+- $p = 0.3$; Average number of cells: 23
+- $p = 0.4$; Average number of cells: 23
+- $p = 0.5$; Average number of cells: 23
+- $p = 0.6$; Average number of cells: 21
+- $p = 0.7$; Average number of cells: 13
+- $p = 0.8$; Average number of cells: 4
+- $p = 0.9$; Average number of cells: 0.5
+
+The cell density is roughly the same for $p$ between 0.2 and 0.6, but it drops significantly if there are initially too many or too few cells.
+
+We can test for different dimensions to observe this, but it requires parallelism or parallel computation due to the large number of loops involved.

@@ -1,4 +1,5 @@
 #include "game_life.hpp"
+#include <algorithm>
 using namespace std;
 
 /*===================================================*** Constructors ***====================================================================*/
@@ -43,6 +44,14 @@ game_life::game_life(ifstream & input) {
     }
 }
 
+game_life::game_life(int _H, int _W, double p, std::mt19937 & G) : game_life(_H,_W){
+    bernoulli_distribution B(p);
+    for(int i = 0; i <H; i++){
+        for(int j = 0; j < W; j++){
+            config[i][j] = B(G);   
+        }
+    }
+}
 
 /*===================================================*** Methods ***====================================================================*/
 int game_life::neighbors(int i, int j) const {
@@ -104,4 +113,13 @@ void game_life::display(ostream & stream) const {
         }
         stream << "\n";
     }
+}
+
+// Note : we cannot use the algorithm count for a 2D vector we need to flatten it into a single range, or we can use std::accumulate + std::count
+int game_life::occupied_cells_count() const {
+    int count = 0;
+    for (const auto& row : this->config) {
+        count += std::count(row.begin(), row.end(), true);
+    }
+    return count;
 }
