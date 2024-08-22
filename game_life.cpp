@@ -134,3 +134,5 @@ std::vector<std::tuple<int, int, std::string>> game_life::get_state_from_cells()
     }
     return occupied_cells;
 }
+
+/*================================================================END====================================================================*/

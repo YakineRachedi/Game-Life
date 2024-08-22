@@ -64,6 +64,7 @@ def draw_all_realizations(all_realizations):
         axes[j].axis('off')
 
     plt.tight_layout()  # Adjust subplot parameters to give some padding
+    plt.savefig("Random_Game.png") # Save plot
     plt.show()  # Display the plot
 
 # Example usage
