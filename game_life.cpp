@@ -125,13 +125,11 @@ int game_life::occupied_cells_count() const {
 }
 
 // Method to obtain the coordinates of occupied cells
-std::vector<std::tuple<int, int, std::string>> game_life::get_occupied_cells() const {
+std::vector<std::tuple<int, int, std::string>> game_life::get_state_from_cells() const {
     std::vector<std::tuple<int, int, std::string>> occupied_cells;
     for(int i = 0; i < H; i++) {
         for(int j = 0; j < W; j++) {
-            if(config[i][j]) {
-                occupied_cells.emplace_back(i, j, "gray");
-            }
+            config[i][j] == true ? occupied_cells.emplace_back(i, j, "gray") : occupied_cells.emplace_back(i, j, "white");
         }
     }
     return occupied_cells;

@@ -18,7 +18,7 @@ class game_life {
         int height() const {return this->H;}
         int width() const {return this->W;}
         int occupied_cells_count() const;
-        std::vector<std::tuple<int, int, std::string>> get_occupied_cells() const;
+        std::vector<std::tuple<int, int, std::string>> get_state_from_cells() const;
         int neighbors(int i, int j) const; 
         void iteration();
         void display(std::ostream & stream) const;

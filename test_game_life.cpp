@@ -28,8 +28,8 @@ int main(){
     // testing for a random values of height, width, parameter p :
 
     mt19937 G(time(nullptr));
-    const int Height = 15;
-    const int Width = 25;
+    int Height = 15;
+    int Width = 25;
     const double p = 0.3;
     game_life test_game_random(Height,Width,p,G);
 
@@ -41,8 +41,8 @@ int main(){
 
     cout << "Number of occupied cells for this time : " << test_game_random.occupied_cells_count() << "\n";
 
-    const int nb_iter = 100;
-    const int nb_realizations = 100;
+    int nb_iter = 100;
+    int nb_realizations = 100;
     
     ofstream outfile("data.txt"); // File to save the data
 
@@ -76,23 +76,25 @@ int main(){
 
     // File to save the data
     outfile.open("realizations.txt");
+    nb_realizations = 5;
+    Height = 5;
+    Width = 5;
+    game_life New_game_test(Height, Width, p, G);
+    New_game_test.display(cout);
+    cout << "\n";
+    for(int realization = 1; realization <= nb_realizations; realization++) {
+        outfile << "Realization start " << "\n";
+        New_game_test.iteration();
+        New_game_test.display(cout);
 
-    for(double p = 0.1; p < 0.95; p += 0.1) {
-        for(int realization = 0; realization < nb_realizations; realization++) {
-            game_life New_game_test(Height, Width, p, G);
-
-            for(int i = 0; i < nb_iter; i++) {
-                New_game_test.iteration();
-            }
-
-            auto occupied_cells = New_game_test.get_occupied_cells();
-            for (const auto& cell : occupied_cells) {
-                int x, y;
-                string color;
-                tie(x, y, color) = cell;
-                outfile << p << " " << realization << " " << x << " " << y << " " << color << "\n";
-            }
+        auto occupied_cells = New_game_test.get_state_from_cells();
+        for (const auto & cell : occupied_cells) {
+            int x, y;
+            string color;
+            tie(x, y, color) = cell;
+            outfile << x << " " << y << " " << color << "\n";
         }
+        outfile << "End realization" << "\n";
     }
     outfile.close();
     return 0;

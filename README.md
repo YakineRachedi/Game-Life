@@ -91,3 +91,11 @@ The approximate results are as follows:
 The cell density is roughly the same for $p$ between 0.2 and 0.6, but it drops significantly if there are initially too many or too few cells.
 
 We can test for different dimensions to observe this, but it requires parallelism or parallel computation due to the large number of loops involved.
+
+
+# Visualization part :
+```cpp 
+std::vector<std::tuple<int, int, std::string>> get_occupied_cells() const;
+```
+
+This accessor allows us to retrieve both occupied and unoccupied cells. I have also added a tuple that contains a string as the third parameter, which was useful later in my Python script for visualization. Although we could use a structure instead, I preferred to use a tuple with int, int, and string to keep the code shorter.
